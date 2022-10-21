@@ -27,6 +27,11 @@ let ccSecurityMask = {
 
 let ccSecurityMasked = IMask(ccSecurity, ccSecurityMask);
 
+let cvv = document.querySelector(".cc-security .value");
+cvv.addEventListener('input', () => {
+
+})
+
 let ccExpirationDate = document.getElementById("expiration-date");
 let data = new Date;
 
@@ -80,3 +85,43 @@ const cardNumberMask = {
 }
 
 const cardNumberMasked = IMask(cardNumber, cardNumberMask);
+
+
+const cardHolder = document.querySelector("#card-holder")
+
+cardHolder.addEventListener('input', () => {
+  const ccHolder = document.querySelector('.cc-holder .value');
+  ccHolder.innerText = cardHolder.value.length === 0 ? 'SEU NOME AQUI' : cardHolder.value
+})
+
+// Atualiza o cvv do cartão com os valores do input
+ccSecurityMasked.on('accept', () => {
+  updateSecurityCode(ccSecurityMasked.value)
+})
+
+function updateSecurityCode(code) {
+  const ccSecurity = document.querySelector('.cc-security .value');
+  ccSecurity.innerText = code.length === 0 ? '123' : code
+}
+
+// Atualiza o cartão com o numero digitado no input
+cardNumberMasked.on('accept', () => {
+  const cardType = cardNumberMasked.masked.currentMask.cardtype
+  setCardType(cardType)
+  updateCardNumber(cardNumberMasked.value);
+})
+
+function updateCardNumber(number) {
+  const ccNumber = document.querySelector('.cc-number')
+  ccNumber.innerText = number.length === 0 ? '1234 5678 9123 456' : number
+}
+
+// Atualiza o cartão com a data de expiração do input
+ccExpirationDateMasked.on('accept', () => {
+  updateEspirationDate(ccExpirationDateMasked.value)
+})
+
+function updateEspirationDate(date) {
+  const ccExpiration = document.querySelector('.cc-extra .value')
+  ccExpiration.innerText = date.length === 0 ? '01/28' : date
+}

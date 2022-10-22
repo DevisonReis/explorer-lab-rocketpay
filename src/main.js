@@ -18,7 +18,7 @@ function setCardType(type){
   ccLogo.setAttribute("src", 'cc-' + type + '.svg');
 }
 
-setCardType("mastercard");
+globalThis.setCardType = setCardType;
 
 let ccSecurity = document.getElementById("security-code");
 let ccSecurityMask = {
@@ -26,11 +26,6 @@ let ccSecurityMask = {
 };
 
 let ccSecurityMasked = IMask(ccSecurity, ccSecurityMask);
-
-let cvv = document.querySelector(".cc-security .value");
-cvv.addEventListener('input', () => {
-
-})
 
 let ccExpirationDate = document.getElementById("expiration-date");
 let data = new Date;
@@ -118,10 +113,17 @@ function updateCardNumber(number) {
 
 // Atualiza o cartão com a data de expiração do input
 ccExpirationDateMasked.on('accept', () => {
-  updateEspirationDate(ccExpirationDateMasked.value)
+  updateExpirationDate(ccExpirationDateMasked.value)
 })
 
-function updateEspirationDate(date) {
-  const ccExpiration = document.querySelector('.cc-extra .value')
-  ccExpiration.innerText = date.length === 0 ? '01/28' : date
+function updateExpirationDate(date) {
+  const ccExpiration = document.querySelector('.cc-extra .cc-expiration .value')
+  ccExpiration.innerText = date.length === 0 ? '00/00' : date
+}
+
+const addCard = document.querySelector('button');
+addCard.addEventListener('click', addCreditCard)
+
+function addCreditCard() {
+  window.alert('Cartão cadastrado com sucesso!');
 }
